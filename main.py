@@ -1,35 +1,41 @@
-from datos import cargar_secuencia_fasta, complemento_dna
+import os
+
+from utilidades import cargar_secuencia_fasta, complemento_dna
 from replicacion_dna import replicar_dna
 from transcripcion import transcripcion
 from traduccion import traduccion
+
+# Ruta relativa al propio script, para que funcione desde cualquier directorio
+RUTA_DATASET = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            "ncbi_dataset", "data", "gene.fna")
+
+SECUENCIA_EJEMPLO = ("ATGACCATGATTACGGATTCACTGGCCGTCGTTTTACAACGTCGTGACTGGGAAAACCCTGGCGTTACCCAACTT"
+                     "AATCGCCTTGCAGCACATCCCCCTTTCGCCAGCTGGCGTAATAG")
+
 
 def ejecutar_simulacion():
     print("==========================================================")
     print(" SIMULACIÓN DEL DOGMA CENTRAL DE LA BIOLOGÍA MOLECULAR")
     print("==========================================================")
-    
-    ruta_dataset = "ncbi_dataset/data/gene.fna"
-    
-    # Cargar datos
+
     try:
-        adn_secuencia = cargar_secuencia_fasta(ruta_dataset)
+        adn_secuencia = cargar_secuencia_fasta(RUTA_DATASET)
         print(f"Secuencia del gen lacZ cargada con éxito ({len(adn_secuencia)} bp).")
     except FileNotFoundError:
-        print("Archivo gene.fna no encontrado. Ejecutando con secuencia de ejemplo corta...")
-        adn_secuencia = "ATGACCATGATTACGGATTCACTGGCCGTCGTTTTACAACGTCGTGACTGGGAAAACCCTGGCGTTACCCAACTTAATCGCCTTGCAGCACATCCCCCTTTCGCCAGCTGGCGTAATAG"
+        print("\n!!! ATENCIÓN: no se encontró el dataset real (ncbi_dataset/data/gene.fna).")
+        print("!!! Se usará una secuencia de EJEMPLO corta: el resultado NO es el del gen lacZ completo.\n")
+        adn_secuencia = SECUENCIA_EJEMPLO
 
-    # Paso 1: Replicación
     lider, rezagada = replicar_dna(adn_secuencia)
-    
-    # Paso 2: Transcripción (usamos la cadena complementaria como molde)
+
     arn_m = transcripcion(complemento_dna(lider))
-    
-    # Paso 3: Traducción
+
     proteina = traduccion(arn_m)
-    
+
     print("\n----------------------------------------------------------")
     print(" Flujo genético simulado correctamente.")
     print("----------------------------------------------------------")
+
 
 if __name__ == "__main__":
     ejecutar_simulacion()

@@ -1,5 +1,3 @@
-
-
 TABLA_CODONES = {
     'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M',
     'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACT':'T',
@@ -20,8 +18,10 @@ TABLA_CODONES = {
 }
 
 
+TABLA_ARN = {codon.replace('T', 'U'): aa for codon, aa in TABLA_CODONES.items()}
+
+
 def cargar_secuencia_fasta(ruta_archivo: str) -> str:
-    """Lee un archivo FASTA/FNA ignorando los encabezados (líneas que empiezan por '>')."""
     secuencia = []
     with open(ruta_archivo, 'r') as f:
         for linea in f:
@@ -32,6 +32,5 @@ def cargar_secuencia_fasta(ruta_archivo: str) -> str:
 
 
 def complemento_dna(cadena_dna: str) -> str:
-    """Genera la cadena complementaria de ADN según A<->T y C<->G."""
     tabla = str.maketrans('ATCG', 'TAGC')
     return cadena_dna.translate(tabla)
