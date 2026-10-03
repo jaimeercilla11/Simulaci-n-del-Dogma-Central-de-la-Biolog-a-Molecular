@@ -1,6 +1,5 @@
 # Práctica 1: Simulación del Dogma Central de la Biología Molecular
 
-**Asignatura:** Bioinformática (ULPGC)  
 **Autor:** Jaime Ercilla Martín, Javier Bolivar Garcia-Izquierdo  
 
 ---
